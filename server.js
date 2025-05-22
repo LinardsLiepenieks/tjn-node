@@ -30,8 +30,6 @@ const connectDB = async () => {
   }
 };
 
-connectDB();
-
 app.use(
   cors({
     origin: process.env.ORIGIN,
@@ -46,3 +44,10 @@ app.use('/calendarEvents', calendarEventsRouter);
 app.listen(port, () => {
   console.log('server running at port 3001');
 });
+
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
+
+module.exports = app;
