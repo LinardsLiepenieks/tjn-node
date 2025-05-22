@@ -41,9 +41,9 @@ app.use('/items', itemsRouter);
 app.use('/calendarEvents', calendarEventsRouter);
 
 //palaizam serveri
-app.listen(port, () => {
+/*app.listen(port, () => {
   console.log('server running at port 3001');
-});
+});*/
 
 app.use(async (req, res, next) => {
   await connectDB();
