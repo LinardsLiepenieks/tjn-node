@@ -52,6 +52,10 @@ app.use(async (req, res, next) => {
   next();
 });
 */
+// Health check endpoint
+app.get('/', (req, res) => {
+  res.json({ message: 'API is running successfully!' });
+});
 
 // Only start server if not in serverless environment (like Vercel)
 if (require.main === module) {
