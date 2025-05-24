@@ -36,7 +36,6 @@ router.put('/update/:id', async (req, res) => {
 });
 
 router.delete('/delete/:id', async (req, res) => {
-  console.log('HERE');
   try {
     const { id } = req.params;
     const deletedEvent = await CalendarEvent.findByIdAndDelete(id);

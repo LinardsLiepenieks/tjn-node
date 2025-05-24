@@ -4,7 +4,6 @@ const Item = require('../models/Item');
 let items = [];
 
 router.post('/', (req, res) => {
-  req.body.name = 'TESTNAME 6MAR';
   console.log(req.body);
   const newItem = new Item(req.body);
 
