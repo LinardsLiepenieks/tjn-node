@@ -15,14 +15,18 @@ const app = express();
 //izveidojam portu
 const port = process.env.PORT;
 
+const cachedConn = null;
 const connectDB = async () => {
   try {
+    if (cachedConn) {
+      return;
+    }
     const username = process.env.DB_USERNAME;
     const password = process.env.DB_PASSWORD;
     const db = process.env.DB_NAME;
     const MONGODB_URI = `mongodb+srv://${username}:${password}@cluster0.yitsy7l.mongodb.net/${db}?retryWrites=true&w=majority&appName=Cluster0`;
 
-    await mongoose.connect(MONGODB_URI);
+    cachedConn = await mongoose.connect(MONGODB_URI);
     console.log('MongoDB connected successfully');
   } catch (error) {
     console.error('Mongobd connection error:', error);
@@ -39,11 +43,6 @@ app.use(
 app.use(express.json());
 app.use('/items', itemsRouter);
 app.use('/calendarEvents', calendarEventsRouter);
-
-// Health check endpoint
-app.get('/', (req, res) => {
-  res.json({ message: 'API is running successfully!' });
-});
 
 app.use(
   '/',
