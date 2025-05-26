@@ -30,8 +30,6 @@ const connectDB = async () => {
   }
 };
 
-connectDB(); //JAUNS
-
 app.use(
   cors({
     origin: process.env.ORIGIN,
@@ -42,20 +40,23 @@ app.use(express.json());
 app.use('/items', itemsRouter);
 app.use('/calendarEvents', calendarEventsRouter);
 
-//palaizam serveri
-/*app.listen(port, () => {
-  console.log('server running at port 3001');
-});*/
-/*NEVAJAG
-app.use(async (req, res, next) => {
-  await connectDB();
-  next();
-});
-*/
 // Health check endpoint
 app.get('/', (req, res) => {
   res.json({ message: 'API is running successfully!' });
 });
+
+app.use(
+  '/',
+  async (req, res, next) => {
+    try {
+      await connectDB(); // ensure DB is connected before handling any API
+      next();
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to connect to DB' });
+    }
+  },
+  calendarEventsRouter
+);
 
 // Only start server if not in serverless environment (like Vercel)
 if (require.main === module) {
