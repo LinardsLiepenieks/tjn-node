@@ -15,7 +15,7 @@ const app = express();
 //izveidojam portu
 const port = process.env.PORT;
 
-const cachedConn = null;
+let cachedConn = null;
 const connectDB = async () => {
   try {
     if (cachedConn) {
